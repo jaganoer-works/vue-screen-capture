@@ -4,12 +4,15 @@ const stream = ref(null);
 
 const startCapture = async () => {
     console.log("startCapture!");
+
     try {
         stream.value = await navigator.mediaDevices.getDisplayMedia({
             video: true,
             audio: false,
         });
+
         dumpOptionsInfo();
+
     } catch (err) {
         console.error(err);
     }
@@ -18,6 +21,8 @@ const startCapture = async () => {
 
 const stopCapture = () => {
     console.log('stopCapture');
+
+    if (!stream.value) return console.log('開始を押してください');
     const tracks = stream.value.getTracks();
 
     tracks.forEach(track => track.stop());
